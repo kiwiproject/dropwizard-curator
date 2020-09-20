@@ -66,7 +66,7 @@
         <arguments/>
 
         <!-- Versions for required dependencies -->
-        <dropwizard-config-providers.version>0.1.0</dropwizard-config-providers.version>
+        <dropwizard-config-providers.version>0.2.0</dropwizard-config-providers.version>
         <kiwi.version>0.10.0</kiwi.version>
 
         <!-- Versions for provided dependencies -->
@@ -143,12 +143,6 @@
             <groupId>org.kiwiproject</groupId>
             <artifactId>dropwizard-config-providers</artifactId>
             <version>${dropwizard-config-providers.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.kiwiproject</groupId>
-                    <artifactId>kiwi</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- provided dependencies -->
