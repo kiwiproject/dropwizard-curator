@@ -145,8 +145,6 @@
             <version>${dropwizard-config-providers.version}</version>
         </dependency>
 
-        <!-- provided dependencies -->
-
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
@@ -264,6 +262,8 @@
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
         </dependency>
+             
+        <!-- provided dependencies -->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
