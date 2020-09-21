@@ -66,12 +66,9 @@
         <arguments/>
 
         <!-- Versions for required dependencies -->
-        <dropwizard-config-providers.version>0.2.0</dropwizard-config-providers.version>
-        <kiwi.version>0.10.0</kiwi.version>
-
-        <!-- Versions for provided dependencies -->
         <classmate.version>1.5.1</classmate.version>
         <curator.version>2.13.0</curator.version>
+        <dropwizard-config-providers.version>0.2.0</dropwizard-config-providers.version>
         <dropwizard.version>2.0.12</dropwizard.version>
         <jackson.version>2.10.5</jackson.version>
         <jakarta.activation-api.version>1.2.2</jakarta.activation-api.version>
@@ -79,7 +76,10 @@
         <jakarta.xml.bind-api>2.3.3</jakarta.xml.bind-api>
         <javassist.version>3.27.0-GA</javassist.version>
         <joda-time.version>2.10.6</joda-time.version>
+        <kiwi.version>0.10.0</kiwi.version>
         <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
+
+        <!-- Versions for provided dependencies -->
         <lombok.version>1.18.12</lombok.version>
 
         <!-- Versions for optional dependencies -->
