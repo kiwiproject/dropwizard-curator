@@ -42,6 +42,7 @@ class CuratorConfigTest {
         softly.assertThat(config.getMaxRetries()).isEqualTo(CuratorConfig.DEFAULT_MAX_RETRIES);
         softly.assertThat(config.getSessionTimeout().toMilliseconds()).isEqualTo(CuratorConfig.DEFAULT_SESSION_TIMEOUT_MS);
         softly.assertThat(config.getConnectionTimeout().toMilliseconds()).isEqualTo(CuratorConfig.DEFAULT_CONNECTION_TIMEOUT_MS);
+        softly.assertThat(config.getHealthCheckName()).isEqualTo(CuratorConfig.DEFAULT_HEALTH_CHECK_NAME);
     }
 
     @Test
@@ -120,6 +121,12 @@ class CuratorConfigTest {
             config.setMaxRetries(null);
             assertOnePropertyViolation(validator, config, "maxRetries");
         }
+
+        @Test
+        void shouldRequireHealthCheckName() {
+            config.setHealthCheckName("");
+            assertOnePropertyViolation(validator, config, "healthCheckName");
+        }
     }
 
     @Nested
@@ -183,6 +190,7 @@ class CuratorConfigTest {
         original.setBaseSleepTime(Duration.milliseconds(750));
         original.setMaxSleepTime(Duration.seconds(15));
         original.setMaxRetries(10);
+        original.setHealthCheckName("customCurator");
         return original;
     }
 

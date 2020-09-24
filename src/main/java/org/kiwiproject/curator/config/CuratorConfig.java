@@ -69,6 +69,11 @@ public class CuratorConfig {
      */
     public static final int DEFAULT_MAX_SLEEP_SECONDS = 10;
 
+    /**
+     * Default health check name.
+     */
+    public static final String DEFAULT_HEALTH_CHECK_NAME = "curator";
+
     @Getter(AccessLevel.NONE)
     private final ZooKeeperConfigProvider zkConfigProvider;
 
@@ -118,6 +123,9 @@ public class CuratorConfig {
     @Min(1)
     private Integer maxRetries = DEFAULT_MAX_RETRIES;
 
+    @NotBlank
+    private String healthCheckName = DEFAULT_HEALTH_CHECK_NAME;
+
     /**
      * Create new instance using a default {@link ZooKeeperConfigProvider} configured with
      * {@link #DEFAULT_ZK_CONNECT_STRING} as the connect string.
@@ -160,6 +168,7 @@ public class CuratorConfig {
         copy.setBaseSleepTime(original.getBaseSleepTime());
         copy.setMaxSleepTime(original.getMaxSleepTime());
         copy.setMaxRetries(original.getMaxRetries());
+        copy.setHealthCheckName(original.getHealthCheckName());
         return copy;
     }
 
