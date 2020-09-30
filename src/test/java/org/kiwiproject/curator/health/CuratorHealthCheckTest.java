@@ -1,6 +1,7 @@
 package org.kiwiproject.curator.health;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.kiwiproject.metrics.health.HealthCheckResults.SEVERITY_DETAIL;
 import static org.kiwiproject.test.assertj.dropwizard.metrics.HealthCheckResultAssertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.kiwiproject.metrics.health.HealthStatus;
 import org.kiwiproject.test.curator.CuratorTestingServerExtension;
 
 import java.util.concurrent.TimeUnit;
@@ -65,7 +67,8 @@ class CuratorHealthCheckTest {
 
         assertThat(healthCheck)
                 .isHealthy()
-                .hasMessage("Curator [ {} ] is healthy", zkConnectString);
+                .hasMessage("Curator [ {} ] is healthy", zkConnectString)
+                .hasDetail(SEVERITY_DETAIL, HealthStatus.OK.name());
     }
 
     @Test
@@ -73,7 +76,8 @@ class CuratorHealthCheckTest {
         // Do not start client to remain in latent state
         assertThat(healthCheck)
                 .isUnhealthy()
-                .hasMessage("Curator [ {} ] has not been started - start() has not been called", zkConnectString);
+                .hasMessage("Curator [ {} ] has not been started - start() has not been called", zkConnectString)
+                .hasDetail(SEVERITY_DETAIL, HealthStatus.CRITICAL.name());
     }
 
     @Test
@@ -83,7 +87,8 @@ class CuratorHealthCheckTest {
 
         assertThat(healthCheck)
                 .isUnhealthy()
-                .hasMessage("Curator [ {} ] is stopped", zkConnectString);
+                .hasMessage("Curator [ {} ] is stopped", zkConnectString)
+                .hasDetail(SEVERITY_DETAIL, HealthStatus.CRITICAL.name());
     }
 
     /**
@@ -113,7 +118,8 @@ class CuratorHealthCheckTest {
 
             assertThat(healthCheck)
                     .isUnhealthy()
-                    .hasMessage("Curator [ {} ] has unknown state: null", zkConnectString);
+                    .hasMessage("Curator [ {} ] has unknown state: null", zkConnectString)
+                    .hasDetail(SEVERITY_DETAIL, HealthStatus.CRITICAL.name());
         }
 
         @Test
@@ -123,7 +129,8 @@ class CuratorHealthCheckTest {
 
             assertThat(healthCheck)
                     .isUnhealthy()
-                    .hasMessage("Curator [ {} ] is started but is not connected", zkConnectString);
+                    .hasMessage("Curator [ {} ] is started but is not connected", zkConnectString)
+                    .hasDetail(SEVERITY_DETAIL, HealthStatus.CRITICAL.name());
         }
 
         @Test
@@ -137,7 +144,8 @@ class CuratorHealthCheckTest {
 
             assertThat(healthCheck)
                     .isUnhealthy()
-                    .hasMessage("ZooKeeperState [ {} ] is connected but is read-only", zkConnectString);
+                    .hasMessage("ZooKeeperState [ {} ] is connected but is read-only", zkConnectString)
+                    .hasDetail(SEVERITY_DETAIL, HealthStatus.CRITICAL.name());
         }
 
         @Test
@@ -155,7 +163,8 @@ class CuratorHealthCheckTest {
 
             assertThat(healthCheck)
                     .isUnhealthy()
-                    .hasMessage("Curator [ {} ] - unable to read znodes at root path '/'", zkConnectString);
+                    .hasMessage("Curator [ {} ] - unable to read znodes at root path '/'", zkConnectString)
+                    .hasDetail(SEVERITY_DETAIL, HealthStatus.CRITICAL.name());
         }
     }
 

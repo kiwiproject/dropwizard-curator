@@ -76,6 +76,7 @@
         <javassist.version>3.27.0-GA</javassist.version>
         <joda-time.version>2.10.6</joda-time.version>
         <kiwi.version>0.10.0</kiwi.version>
+        <kiwi.metrics-healthchecks-severity.version>0.9.0</kiwi.metrics-healthchecks-severity.version>
         <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
         <zookeeper.version>3.4.14</zookeeper.version>
 
@@ -143,6 +144,12 @@
             <groupId>org.kiwiproject</groupId>
             <artifactId>dropwizard-config-providers</artifactId>
             <version>${dropwizard-config-providers.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kiwiproject</groupId>
+            <artifactId>metrics-healthchecks-severity</artifactId>
+            <version>${kiwi.metrics-healthchecks-severity.version}</version>
         </dependency>
 
         <dependency>
