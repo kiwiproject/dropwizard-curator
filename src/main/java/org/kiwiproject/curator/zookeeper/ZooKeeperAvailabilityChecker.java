@@ -32,6 +32,9 @@ public class ZooKeeperAvailabilityChecker {
 
     /**
      * Check if any ZooKeepers are available using the connection string in the {@link CuratorConfig}.
+     *
+     * @param curatorConfig the CuratorConfig containing a ZooKeeper connection string
+     * @return true if a ZooKeeper is available at the given connection string, otherwise false
      */
     public boolean anyZooKeepersAvailable(CuratorConfig curatorConfig) {
         return anyZooKeepersAvailable(curatorConfig.getZkConnectString());
@@ -39,6 +42,9 @@ public class ZooKeeperAvailabilityChecker {
 
     /**
      * Check if any ZooKeepers are available using the given connection string.
+     *
+     * @param zkConnectString the ZooKeeper connection string
+     * @return true if a ZooKeeper is available at the given connection string, otherwise false
      */
     public boolean anyZooKeepersAvailable(String zkConnectString) {
         return COMMA_SPLITTER.splitToList(zkConnectString)
