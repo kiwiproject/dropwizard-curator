@@ -1,6 +1,6 @@
 package org.kiwiproject.curator.exception;
 
-import static org.kiwiproject.curator.test.util.StandardExceptionTests.standardConstructorTestsFor;
+import static org.kiwiproject.test.junit.jupiter.StandardExceptionTests.standardConstructorTestsFor;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
