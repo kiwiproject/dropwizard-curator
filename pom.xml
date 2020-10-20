@@ -69,13 +69,6 @@
             <groupId>org.kiwiproject</groupId>
             <artifactId>dropwizard-config-providers</artifactId>
             <version>${dropwizard-config-providers.version}</version>
-            <exclusions>
-                <!-- temporary -->
-                <exclusion>
-                    <groupId>org.kiwiproject</groupId>
-                    <artifactId>kiwi</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
