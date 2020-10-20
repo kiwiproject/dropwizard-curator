@@ -1,7 +1,6 @@
 package org.kiwiproject.curator.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.kiwiproject.test.validation.ValidationTestHelper.assertOnePropertyViolation;
 
@@ -63,7 +62,7 @@ class CuratorConfigTest {
         }
 
         @Test
-        void shouldReturnValeProvidedByConfigProvider() {
+        void shouldReturnValueProvidedByConfigProvider() {
             var providedValue = "zk4.test:2181,zk5.test:2181,zk6.test:2181";
             var fieldResolverStrategy = FieldResolverStrategy.<String>builder()
                     .explicitValue(providedValue)
@@ -78,13 +77,11 @@ class CuratorConfigTest {
         }
 
         @Test
-        void shouldThrow_WhenNoExplicitValue_AndConfigProvider_CannotProvide() {
+        void shouldProviderDefaultValue_WhenNoExplicitValue() {
             var configProvider = ZooKeeperConfigProvider.builder().build();
             config = new CuratorConfig(configProvider);
 
-            assertThatIllegalStateException()
-                    .isThrownBy(() -> config.getZkConnectString())
-                    .withMessage("No explicit connect string was given, and the ZooKeeperConfigProvider cannot provide a value");
+            assertThat(config.getZkConnectString()).isEqualTo("localhost:2181");
         }
     }
 
