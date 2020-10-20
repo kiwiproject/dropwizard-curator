@@ -245,17 +245,6 @@
             <artifactId>kiwi-test</artifactId>
             <version>${kiwi.test.version}</version>
             <scope>test</scope>
-            <!-- TODO Remove exclusion once update to latest kiwi-test -->
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.kiwiproject</groupId>
-                    <artifactId>kiwi</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
