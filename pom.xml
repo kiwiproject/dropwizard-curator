@@ -75,6 +75,17 @@
             <groupId>org.kiwiproject</groupId>
             <artifactId>metrics-healthchecks-severity</artifactId>
             <version>${kiwi.metrics-healthchecks-severity.version}</version>
+            <exclusions>
+                <!-- TODO: temporary -->
+                <exclusion>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard.metrics</groupId>
+                    <artifactId>metrics-healthchecks</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
