@@ -1,6 +1,6 @@
 ### Dropwizard Curator
 
-[![Build Status](https://travis-ci.com/kiwiproject/dropwizard-curator.svg?branch=master)](https://travis-ci.com/kiwiproject/dropwizard-curator)
+[![Build](https://github.com/kiwiproject/dropwizard-curator/workflows/build/badge.svg)](https://github.com/kiwiproject/dropwizard-curator/actions?query=workflow%3Abuild)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kiwiproject_dropwizard-curator&metric=alert_status)](https://sonarcloud.io/dashboard?id=kiwiproject_dropwizard-curator)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kiwiproject_dropwizard-curator&metric=coverage)](https://sonarcloud.io/dashboard?id=kiwiproject_dropwizard-curator)
 [![javadoc](https://javadoc.io/badge2/org.kiwiproject/dropwizard-curator/javadoc.svg)](https://javadoc.io/doc/org.kiwiproject/dropwizard-curator)
