@@ -77,16 +77,24 @@ class CuratorConfigTest {
         }
 
         @Test
-        void shouldProviderDefaultValue_WhenNoExplicitValue() {
-            var configProvider = ZooKeeperConfigProvider.builder().build();
-            config = new CuratorConfig(configProvider);
-
+        void shouldProvideDefaultValue_WhenNoExplicitValue() {
             assertThat(config.getZkConnectString()).isEqualTo("localhost:2181");
         }
     }
 
     @Nested
     class Validation {
+
+        @BeforeEach
+        void setUp() {
+            var nullProvidingProvider = ZooKeeperConfigProvider.builder()
+                    .resolverStrategy(FieldResolverStrategy.<String>builder()
+                            .explicitValue(null)
+                            .build())
+                    .build();
+
+            config = new CuratorConfig(nullProvidingProvider);
+        }
 
         @Test
         void shouldNotAllowNull_ZkConnectString() {
@@ -143,7 +151,9 @@ class CuratorConfigTest {
 
             assertThat(copy)
                     .isNotSameAs(original)
-                    .isEqualToIgnoringGivenFields(original, "zkConfigProvider");
+                    .usingRecursiveComparison()
+                    .ignoringFields("zkConfigProvider")
+                    .isEqualTo(original);
         }
     }
 
@@ -173,7 +183,9 @@ class CuratorConfigTest {
 
             assertThat(copy)
                     .isNotSameAs(original)
-                    .isEqualToIgnoringGivenFields(original, "zkConnectString", "zkConfigProvider");
+                    .usingRecursiveComparison()
+                    .ignoringFields("zkConnectString", "zkConfigProvider")
+                    .isEqualTo(original);
 
             assertThat(copy.getZkConnectString()).isEqualTo(newZkConnectString);
         }
