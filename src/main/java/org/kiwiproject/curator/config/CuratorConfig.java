@@ -80,7 +80,6 @@ public class CuratorConfig {
     /**
      * The ZooKeeper connection string, e.g. {@code host1:2181,host2:2181,host3:2181}.
      */
-    @NotBlank
     @Getter(AccessLevel.NONE)
     private String zkConnectString;
 
@@ -191,10 +190,10 @@ public class CuratorConfig {
      * Return the ZooKeeper connect string using an explicitly configured value, or using the resolution of
      * the {@link ZooKeeperConfigProvider} in this instance.
      *
-     * @return the ZooKeeper connect string
-     * @throws IllegalStateException if there is no explicit connect string value or it cannot be resolved by
-     *                               the {@link ZooKeeperConfigProvider}
+     * @return the ZooKeeper connect string, or null if there is not a (non-blank) explicit value and the
+     * {@link ZooKeeperConfigProvider} cannot provide a value
      */
+    @NotBlank
     public String getZkConnectString() {
         if (isNotBlank(zkConnectString)) {
             return zkConnectString;
@@ -202,7 +201,6 @@ public class CuratorConfig {
             return zkConfigProvider.getConnectString();
         }
 
-        throw new IllegalStateException(
-                "No explicit connect string was given, and the ZooKeeperConfigProvider cannot provide a value");
+        return null;
     }
 }
