@@ -1,5 +1,9 @@
 package org.kiwiproject.curator.zookeeper;
 
+import static org.kiwiproject.base.KiwiPreconditions.checkArgumentNotBlank;
+import static org.kiwiproject.base.KiwiPreconditions.checkArgumentNotNull;
+import static org.kiwiproject.base.KiwiPreconditions.requireNotNull;
+
 import com.google.common.base.Splitter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kiwiproject.curator.config.CuratorConfig;
@@ -27,7 +31,7 @@ public class ZooKeeperAvailabilityChecker {
      * @param socketChecker the checker to use
      */
     public ZooKeeperAvailabilityChecker(SocketChecker socketChecker) {
-        this.socketChecker = socketChecker;
+        this.socketChecker = requireNotNull(socketChecker, "socketChecker must not be null");
     }
 
     /**
@@ -37,6 +41,7 @@ public class ZooKeeperAvailabilityChecker {
      * @return true if a ZooKeeper is available at the given connection string, otherwise false
      */
     public boolean anyZooKeepersAvailable(CuratorConfig curatorConfig) {
+        checkArgumentNotNull(curatorConfig, "curatorConfig must not be null");
         return anyZooKeepersAvailable(curatorConfig.getZkConnectString());
     }
 
@@ -47,6 +52,7 @@ public class ZooKeeperAvailabilityChecker {
      * @return true if a ZooKeeper is available at the given connection string, otherwise false
      */
     public boolean anyZooKeepersAvailable(String zkConnectString) {
+        checkArgumentNotBlank(zkConnectString, "ZooKeeper connect string must not be blank");
         return COMMA_SPLITTER.splitToList(zkConnectString)
                 .stream()
                 .map(ZooKeeperAvailabilityChecker::toHostPortPair)
