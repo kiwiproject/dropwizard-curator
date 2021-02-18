@@ -2,6 +2,7 @@ package org.kiwiproject.curator.zookeeper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -13,8 +14,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.kiwiproject.curator.config.CuratorConfig;
 import org.kiwiproject.net.SocketChecker;
+import org.kiwiproject.test.junit.jupiter.params.provider.BlankStringArgumentsProvider;
 
 @DisplayName("ZooKeeperAvailabilityChecker")
 class ZooKeeperAvailabilityCheckerTest {
@@ -26,6 +30,13 @@ class ZooKeeperAvailabilityCheckerTest {
     void setUp() {
         socketChecker = mock(SocketChecker.class);
         checker = new ZooKeeperAvailabilityChecker(socketChecker);
+    }
+
+    @Test
+    void shouldRequireSocketChecker() {
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new ZooKeeperAvailabilityChecker(null))
+                .withMessage("socketChecker must not be null");
     }
 
     @Test
@@ -98,5 +109,25 @@ class ZooKeeperAvailabilityCheckerTest {
             verify(socketChecker).canConnectViaSocket(Pair.of("zk2", 2181));
             verify(socketChecker).canConnectViaSocket(Pair.of("zk3", 2181));
         }
+
+        @Nested
+        class ShouldThrowIllegalArgumentException {
+
+            @Test
+            void whenGivenNullCuratorConfig() {
+                assertThatIllegalArgumentException()
+                        .isThrownBy(() -> checker.anyZooKeepersAvailable((CuratorConfig) null))
+                        .withMessage("curatorConfig must not be null");
+            }
+
+            @ParameterizedTest
+            @ArgumentsSource(BlankStringArgumentsProvider.class)
+            void whenGivenBlankZooKeeperConnectString(String value) {
+                assertThatIllegalArgumentException()
+                        .isThrownBy(() -> checker.anyZooKeepersAvailable(value))
+                        .withMessage("ZooKeeper connect string must not be blank");
+            }
+        }
+
     }
 }
