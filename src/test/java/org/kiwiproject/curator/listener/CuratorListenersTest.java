@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.api.CuratorEvent;
 import org.apache.curator.framework.listen.Listenable;
-import org.apache.curator.framework.listen.ListenerContainer;
+import org.apache.curator.framework.listen.StandardListenerManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -52,13 +52,13 @@ class CuratorListenersTest {
         startAndSleepQuietly();
     }
 
-    private ListenerContainer<?> getListenerContainer(Listenable<?> listenable) {
-        assertThat(listenable).isInstanceOf(ListenerContainer.class);
-        return (ListenerContainer<?>) listenable;
+    private StandardListenerManager<?> getListenerContainer(Listenable<?> listenable) {
+        assertThat(listenable).isInstanceOf(StandardListenerManager.class);
+        return (StandardListenerManager<?>) listenable;
     }
 
     @Test
-    void shouldAddLoggingConnectionStateListener() throws Exception {
+    void shouldAddLoggingConnectionStateListener() {
         var listenable = client.getConnectionStateListenable();
         var listenerContainer = getListenerContainer(listenable);
         var initialCount = listenerContainer.size();
