@@ -96,13 +96,6 @@
             <groupId>org.kiwiproject</groupId>
             <artifactId>dropwizard-config-providers</artifactId>
             <version>${dropwizard-config-providers.version}</version>
-            <exclusions>
-                <!-- TODO Remove once update to dropwizard-config-providers 1.1.0 -->
-                <exclusion>
-                    <groupId>org.kiwiproject</groupId>
-                    <artifactId>kiwi-test</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
