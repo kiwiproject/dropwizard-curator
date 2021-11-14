@@ -31,7 +31,7 @@
         <!-- Versions for required dependencies -->
         <classmate.version>1.5.1</classmate.version>
         <curator.version>5.1.0</curator.version>
-        <dropwizard-config-providers.version>1.1.0</dropwizard-config-providers.version>
+        <dropwizard-config-providers.version>1.1.1</dropwizard-config-providers.version>
         <dropwizard.version>2.0.25</dropwizard.version>
         <hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
         <jackson.version>2.10.5.1</jackson.version>
@@ -41,14 +41,14 @@
         <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
         <javassist.version>3.28.0-GA</javassist.version>
         <joda-time.version>2.10.10</joda-time.version>
-        <kiwi.version>1.0.0</kiwi.version>
-        <kiwi.metrics-healthchecks-severity.version>1.0.0</kiwi.metrics-healthchecks-severity.version>
+        <kiwi.version>1.1.0</kiwi.version>
+        <kiwi.metrics-healthchecks-severity.version>1.0.1</kiwi.metrics-healthchecks-severity.version>
         <metrics-jersey2.version>4.1.25</metrics-jersey2.version>
         <metrics-jetty9.version>4.1.25</metrics-jetty9.version>
         <zookeeper.version>3.7.0</zookeeper.version>
 
         <!-- Versions for test dependencies -->
-        <kiwi-test.version>1.1.0</kiwi-test.version>
+        <kiwi-test.version>1.1.1</kiwi-test.version>
 
         <!-- Sonar properties -->
         <sonar.projectKey>kiwiproject_dropwizard-curator</sonar.projectKey>
