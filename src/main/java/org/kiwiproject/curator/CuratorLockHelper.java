@@ -70,7 +70,7 @@ public class CuratorLockHelper {
             lock.release();
         } catch (Exception e) {
             // ignore
-            LOG.warn("Unable to release lock " + lock, e);
+            LOG.warn("Unable to release lock {}", lock, e);
         }
     }
 
