@@ -23,8 +23,6 @@ class CuratorListenersTest {
     @RegisterExtension
     static final CuratorTestingServerExtension ZK_TEST_SERVER = new CuratorTestingServerExtension();
 
-    private static final String NAME = "listenersTest";
-
     private CuratorFramework client;
 
     @BeforeEach
