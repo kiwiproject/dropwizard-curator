@@ -27,7 +27,7 @@ public class CuratorHealthCheck extends HealthCheck {
      * Check health of a {@link CuratorFramework}.
      * <p>
      * The {@link CuratorFramework} is considered healthy if its state is {@link CuratorFrameworkState#STARTED}, is
-     * connected in read/write state, and can list top-level znodes. Otherwise it is considered unhealthy, even if the
+     * connected in read/write state, and can list top-level znodes. Otherwise, it is considered unhealthy, even if the
      * state is {@link CuratorFrameworkState#LATENT}.
      *
      * @return the {@link Result}

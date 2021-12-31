@@ -157,7 +157,7 @@ class CuratorHealthCheckTest {
             when(mockZookeeperClient.getZooKeeper()).thenReturn(mockZooKeeper);
             when(mockZooKeeper.getState()).thenReturn(ZooKeeper.States.CONNECTED);
 
-            // pretend we got here and then it got un-started...somehow
+            // pretend we got here, and then it got un-started...somehow
             when(mockClient.getChildren())
                     .thenThrow(new IllegalStateException("instance must be started before calling this method"));
 

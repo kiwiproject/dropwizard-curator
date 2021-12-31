@@ -87,7 +87,7 @@
             <version>${kiwi.metrics-healthchecks-severity.version}</version>
         </dependency>
 
-        <!-- Even though curator is bringing in zookeeper transitively, keeping this here so we can explicitly test new versions of zk -->
+        <!-- Even though curator is bringing in zookeeper transitively, keeping this here so that we can explicitly test new versions of zk -->
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>

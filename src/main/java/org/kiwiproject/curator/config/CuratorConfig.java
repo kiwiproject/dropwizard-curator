@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  * Configuration for Curator, which is mainly the ZooKeeper connection string along with some properties to configure
  * the retry policy.
  * <p>
- * Currently the only supported retry policy is {@link org.apache.curator.retry.BoundedExponentialBackoffRetry}.
+ * Currently, the only supported retry policy is {@link org.apache.curator.retry.BoundedExponentialBackoffRetry}.
  */
 @Getter
 @Setter
@@ -40,7 +40,7 @@ public class CuratorConfig {
      * Default session timeout when creating new {@link org.apache.curator.framework.CuratorFramework} instances.
      *
      * @implNote Set to the value of {@code DEFAULT_SESSION_TIMEOUT_MS} in
-     * {@link org.apache.curator.framework.CuratorFrameworkFactory} which is, unfortunately, private so we cannot
+     * {@link org.apache.curator.framework.CuratorFrameworkFactory} which is, unfortunately, private, so we cannot
      * simply reference it directly.
      */
     public static final int DEFAULT_SESSION_TIMEOUT_MS = Ints.checkedCast(TimeUnit.SECONDS.toMillis(60));
@@ -49,7 +49,7 @@ public class CuratorConfig {
      * Default connection timeout when creating new {@link org.apache.curator.framework.CuratorFramework} instances.
      *
      * @implNote Set to the value of {@code DEFAULT_CONNECTION_TIMEOUT_MS}
-     * {@link org.apache.curator.framework.CuratorFrameworkFactory} which is, unfortunately, private so we cannot
+     * {@link org.apache.curator.framework.CuratorFrameworkFactory} which is, unfortunately, private, so we cannot
      * simply reference it directly.
      */
     public static final int DEFAULT_CONNECTION_TIMEOUT_MS = Ints.checkedCast(TimeUnit.SECONDS.toMillis(15));
@@ -127,7 +127,7 @@ public class CuratorConfig {
 
     /**
      * Create new instance using a default {@link ZooKeeperConfigProvider} configured with
-     * {@link #DEFAULT_ZK_CONNECT_STRING} as the connect string.
+     * {@link #DEFAULT_ZK_CONNECT_STRING} as the connection string.
      */
     public CuratorConfig() {
         this(defaultZooKeeperConfigProvider());
@@ -177,7 +177,7 @@ public class CuratorConfig {
      *
      * @param original           the config to copy
      * @param newZkConnectString the ZooKeeper connect string to set in the returned "copy"
-     * @return a new instance with the same values except the connect string
+     * @return a new instance with the same values except the connection string
      */
     public static CuratorConfig copyOfWithZkConnectString(CuratorConfig original, String newZkConnectString) {
         checkArgumentNotBlank(newZkConnectString);
