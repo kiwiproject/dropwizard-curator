@@ -59,7 +59,7 @@ public class CuratorFrameworkHelper {
     }
 
     /**
-     * Closes the specified Curator client, <em>if it is in the STARTED state</em>. Otherwise does nothing.
+     * Closes the specified Curator client, <em>if it is in the STARTED state</em>. Otherwise, does nothing.
      *
      * @param client the Curator client to close
      */
@@ -75,7 +75,7 @@ public class CuratorFrameworkHelper {
     }
 
     /**
-     * Closes the specified Curator client, <em>if it is non-null and in the STARTED state</em>. Otherwise does nothing.
+     * Closes the specified Curator client, <em>if it is non-null and in the STARTED state</em>. Otherwise, does nothing.
      *
      * @param client the Curator client to close, or {@code null}
      * @see #closeIfStarted(CuratorFramework)
