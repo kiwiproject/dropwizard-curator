@@ -1,5 +1,6 @@
 package org.kiwiproject.curator.zookeeper;
 
+import static com.google.common.base.Preconditions.checkState;
 import static org.kiwiproject.base.KiwiPreconditions.checkArgumentNotBlank;
 import static org.kiwiproject.base.KiwiPreconditions.checkArgumentNotNull;
 import static org.kiwiproject.base.KiwiPreconditions.requireNotNull;
@@ -61,6 +62,15 @@ public class ZooKeeperAvailabilityChecker {
 
     private static Pair<String, Integer> toHostPortPair(String hostAndPort) {
         String[] splat = hostAndPort.split(":");
-        return Pair.of(splat[0], Integer.parseInt(splat[1]));
+        checkState(splat.length == 2, "host/port pair does not have exactly two elements: %s", hostAndPort);
+        return Pair.of(splat[0], getPortOrThrow(splat[1]));
+    }
+
+    private static int getPortOrThrow(String portString) {
+        try {
+            return Integer.parseInt(portString);
+        } catch (NumberFormatException e) {
+            throw new IllegalStateException("port is not a number: " + portString, e);
+        }
     }
 }
