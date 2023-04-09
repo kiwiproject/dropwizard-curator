@@ -6,6 +6,6 @@
 [![CodeQL](https://github.com/kiwiproject/dropwizard-curator/actions/workflows/codeql.yml/badge.svg)](https://github.com/kiwiproject/dropwizard-curator/actions/workflows/codeql.yml)
 [![javadoc](https://javadoc.io/badge2/org.kiwiproject/dropwizard-curator/javadoc.svg)](https://javadoc.io/doc/org.kiwiproject/dropwizard-curator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Maven Central](https://img.shields.io/maven-central/v/org.kiwiproject/dropwizard-curator)](https://central.sonatype.com/artifact/org.kiwiproject/dropwizard-curator/1.1.11)
+[![Maven Central](https://img.shields.io/maven-central/v/org.kiwiproject/dropwizard-curator)](https://central.sonatype.com/artifact/org.kiwiproject/dropwizard-curator/ )
 
 Dropwizard Curator is a small library that integrates Apache Curator with Dropwizard.
