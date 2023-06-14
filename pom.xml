@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>dropwizard-curator</artifactId>
-    <version>1.1.13-SNAPSHOT</version>
+    <version>1.1.12-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
