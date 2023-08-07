@@ -7,6 +7,9 @@ import static org.kiwiproject.base.KiwiPreconditions.checkArgumentNotNull;
 import com.google.common.primitives.Ints;
 import io.dropwizard.util.Duration;
 import io.dropwizard.validation.MinDuration;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +17,6 @@ import lombok.ToString;
 import org.kiwiproject.config.provider.FieldResolverStrategy;
 import org.kiwiproject.config.provider.ZooKeeperConfigProvider;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.concurrent.TimeUnit;
 
 /**

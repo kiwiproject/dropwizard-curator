@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.kiwiproject.test.validation.ValidationTestHelper.assertOnePropertyViolation;
 
 import io.dropwizard.util.Duration;
+import jakarta.validation.Validator;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +18,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.kiwiproject.config.provider.FieldResolverStrategy;
 import org.kiwiproject.config.provider.ZooKeeperConfigProvider;
 import org.kiwiproject.validation.KiwiValidations;
-
-import javax.validation.Validator;
 
 @DisplayName("CuratorConfig")
 @ExtendWith(SoftAssertionsExtension.class)
