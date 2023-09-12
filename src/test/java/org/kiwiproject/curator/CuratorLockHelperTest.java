@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.WatcherRemoveCuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +38,17 @@ class CuratorLockHelperTest {
     @Test
     void shouldCreateInterProcessMutex() {
         var lock = lockHelper.createInterProcessMutex(client, "/lock-path");
+        assertThat(lock).isNotNull();
+    }
+
+    @Test
+    void shouldCreateInterProcessSemaphoreMutex() {
+        // this is unfortunately a bit too "clear box" in that it knows about the implementation
+        // details of creating InterProcessSemaphoreMutex instances
+        when(client.newWatcherRemoveCuratorFramework())
+                .thenReturn(mock( WatcherRemoveCuratorFramework.class));
+
+        var lock = lockHelper.createInterProcessSemaphoreMutex(client, "/lock-path");
         assertThat(lock).isNotNull();
     }
 
