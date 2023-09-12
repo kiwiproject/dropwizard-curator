@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessLock;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreMutex;
 import org.kiwiproject.curator.exception.LockAcquisitionException;
 import org.kiwiproject.curator.exception.LockAcquisitionFailureException;
 import org.kiwiproject.curator.exception.LockAcquisitionTimeoutException;
@@ -22,13 +23,31 @@ public class CuratorLockHelper {
 
     /**
      * Creates a Curator lock instance for the given path.
+     * <p>
+     * Use this when you need a re-entrant mutex that can only be released by the acquiring thread.
      *
      * @param client   Curator client
      * @param lockPath the ZooKeeper base lock path
      * @return a Curator lock instance ({@link InterProcessMutex})
+     * @see InterProcessMutex
      */
     public InterProcessMutex createInterProcessMutex(CuratorFramework client, String lockPath) {
         return new InterProcessMutex(client, lockPath);
+    }
+
+    /**
+     * Creates a Curator lock instance for the given path.
+     * <p>
+     * Use this when you need a non re-entrant mutex which can be released by any thread, not just
+     * the acquiring thread.
+     *
+     * @param client   Curator client
+     * @param lockPath the ZooKeeper base lock path
+     * @return a Curator lock instance ({@link InterProcessSemaphoreMutex})
+     * @see InterProcessSemaphoreMutex
+     */
+    public InterProcessSemaphoreMutex createInterProcessSemaphoreMutex(CuratorFramework client, String lockPath) {
+        return new InterProcessSemaphoreMutex(client, lockPath);
     }
 
     /**
