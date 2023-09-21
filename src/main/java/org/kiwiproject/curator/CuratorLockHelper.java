@@ -140,7 +140,6 @@ public class CuratorLockHelper {
      *
      * @param lock    the distributed lock to acquire
      * @param timeout the timeout duration
-     * @param unit    the timeout unit
      * @param action  the action to execute while holding the lock
      * @throws LockAcquisitionFailureException if the lock throws any exception during acquisition
      * @throws LockAcquisitionTimeoutException if the lock acquisition times out
