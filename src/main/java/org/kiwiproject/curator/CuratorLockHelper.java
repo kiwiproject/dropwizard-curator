@@ -12,7 +12,6 @@ import org.kiwiproject.curator.exception.LockAcquisitionException;
 import org.kiwiproject.curator.exception.LockAcquisitionFailureException;
 import org.kiwiproject.curator.exception.LockAcquisitionTimeoutException;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
