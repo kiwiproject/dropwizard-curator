@@ -27,6 +27,7 @@ import org.kiwiproject.curator.exception.LockAcquisitionTimeoutException;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -89,6 +90,17 @@ class CuratorLockHelperTest {
             var thrown = catchThrowable(() -> lockHelper.acquire(lock, 10, TimeUnit.SECONDS));
 
             assertThat(thrown).isInstanceOf(LockAcquisitionTimeoutException.class);
+        }
+
+        @Test
+        void shouldAcceptDuration() throws Exception {
+            when(lock.acquire(anyLong(), any(TimeUnit.class))).thenReturn(true);
+
+            var timeout = Duration.ofSeconds(1);
+            assertThatCode(() -> lockHelper.acquire(lock, timeout))
+                    .doesNotThrowAnyException();
+
+            verify(lock).acquire(timeout.toNanos(), TimeUnit.NANOSECONDS);
         }
     }
 
@@ -206,6 +218,16 @@ class CuratorLockHelperTest {
             verify(lock).acquire(1, TimeUnit.SECONDS);
             verify(lock).release();
         }
+
+        @Test
+        void shouldAcceptDuration() throws Exception {
+            when(lock.acquire(anyLong(), any(TimeUnit.class))).thenReturn(true);
+
+            var timeout = Duration.ofSeconds(3);
+            lockHelper.useLock(lock, timeout, new TrackingRunnable());
+
+            verify(lock).acquire(timeout.toNanos(), TimeUnit.NANOSECONDS);
+        }
     }
 
     @Nested
@@ -254,6 +276,16 @@ class CuratorLockHelperTest {
             assertThat(errorConsumer.e).isExactlyInstanceOf(UncheckedIOException.class);
 
             verify(lock).acquire(3, TimeUnit.SECONDS);
+        }
+
+        @Test
+        void shouldAcceptDuration() throws Exception {
+            when(lock.acquire(anyLong(), any(TimeUnit.class))).thenReturn(true);
+
+            var timeout = Duration.ofSeconds(5);
+            lockHelper.useLock(lock, timeout, new TrackingRunnable(), new ErrorConsumer());
+
+            verify(lock).acquire(timeout.toNanos(), TimeUnit.NANOSECONDS);
         }
     }
 
@@ -311,6 +343,16 @@ class CuratorLockHelperTest {
             verify(lock).acquire(5, TimeUnit.SECONDS);
             verify(lock).release();
         }
+
+        @Test
+        void shouldAcceptDuration() throws Exception {
+            when(lock.acquire(anyLong(), any(TimeUnit.class))).thenReturn(true);
+
+            var timeout = Duration.ofSeconds(2);
+            lockHelper.withLock(lock, timeout, new TrackingSupplier(42L));
+
+            verify(lock).acquire(timeout.toNanos(), TimeUnit.NANOSECONDS);
+        }
     }
 
     @Nested
@@ -361,6 +403,16 @@ class CuratorLockHelperTest {
             assertThat(errorHandler.wasCalled).isTrue();
             assertThat(errorHandler.errorType).isEqualTo(ErrorType.OPERATION);
             assertThat(errorHandler.e).isExactlyInstanceOf(UncheckedIOException.class);
+        }
+
+        @Test
+        void shouldAcceptDuration() throws Exception {
+            when(lock.acquire(anyLong(), any(TimeUnit.class))).thenReturn(true);
+
+            var timeout = Duration.ofSeconds(3);
+            lockHelper.withLock(lock, timeout, new TrackingSupplier(42L), new ErrorHandlerFn<>(84L));
+
+            verify(lock).acquire(timeout.toNanos(), TimeUnit.NANOSECONDS);
         }
     }
 

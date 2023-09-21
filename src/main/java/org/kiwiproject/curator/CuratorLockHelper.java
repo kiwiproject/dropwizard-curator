@@ -12,6 +12,7 @@ import org.kiwiproject.curator.exception.LockAcquisitionException;
 import org.kiwiproject.curator.exception.LockAcquisitionFailureException;
 import org.kiwiproject.curator.exception.LockAcquisitionTimeoutException;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -51,6 +52,20 @@ public class CuratorLockHelper {
      */
     public InterProcessSemaphoreMutex createInterProcessSemaphoreMutex(CuratorFramework client, String lockPath) {
         return new InterProcessSemaphoreMutex(client, lockPath);
+    }
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period. If Curator throws any
+     * exception, or if the timeout expires, the appropriate exception is thrown.
+     *
+     * @param lock    the lock to acquire
+     * @param timeout the timeout duration
+     * @throws LockAcquisitionFailureException if the lock throws any exception during acquisition
+     * @throws LockAcquisitionTimeoutException if the lock acquisition times out
+     */
+    public void acquire(InterProcessLock lock, Duration timeout) {
+        var nanos = timeout.toNanos();
+        acquire(lock, nanos, TimeUnit.NANOSECONDS);
     }
 
     /**
@@ -123,6 +138,26 @@ public class CuratorLockHelper {
      * <p>
      * If Curator throws any exception, or if the timeout expires, the appropriate exception is thrown.
      *
+     * @param lock    the distributed lock to acquire
+     * @param timeout the timeout duration
+     * @param action  the action to execute while holding the lock
+     * @throws LockAcquisitionFailureException if the lock throws any exception during acquisition
+     * @throws LockAcquisitionTimeoutException if the lock acquisition times out
+     */
+    public void useLock(InterProcessLock lock, Duration timeout, Runnable action) {
+        var nanos = timeout.toNanos();
+        useLock(lock, nanos, TimeUnit.NANOSECONDS, action);
+    }
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, executes the specified {@code action}, then releases the lock.
+     * <p>
+     * If the action throws an exception, the lock is released, and the action's exception
+     * is propagated to the caller.
+     * <p>
+     * If Curator throws any exception, or if the timeout expires, the appropriate exception is thrown.
+     *
      * @param lock   the distributed lock to acquire
      * @param time   the timeout quantity
      * @param unit   the timeout unit
@@ -156,6 +191,26 @@ public class CuratorLockHelper {
         OPERATION
     }
 
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, executes the specified {@code action}, then releases the lock.
+     * <p>
+     * If the lock cannot be obtained for any reason, or the action throws an exception, the lock is released, and
+     * the {@code errorHandler} is called. The {@link ErrorType} can be used to determine the cause, to permit different
+     * handling for lock acquisition failures and action execution failures.
+     *
+     * @param lock         the distributed lock to acquire
+     * @param timeout      the timeout duration
+     * @param action       the action to execute while holding the lock
+     * @param errorHandler the action to take if the lock cannot be obtained, or if the action throws any exception
+     */
+    public void useLock(InterProcessLock lock,
+                        Duration timeout,
+                        Runnable action,
+                        BiConsumer<ErrorType, RuntimeException> errorHandler) {
+        var nanos = timeout.toNanos();
+        useLock(lock, nanos, TimeUnit.NANOSECONDS, action, errorHandler);
+    }
 
     /**
      * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
@@ -196,6 +251,29 @@ public class CuratorLockHelper {
      *
      * @param <R>      the type of the result produced by the supplier
      * @param lock     the distributed lock to acquire
+     * @param timeout  the timeout duration
+     * @param supplier The supplier providing the computation to be executed while holding the lock
+     * @return The result of the computation provided by the supplier
+     * @throws LockAcquisitionFailureException if the lock throws any exception during acquisition
+     * @throws LockAcquisitionTimeoutException if the lock acquisition times out
+     */
+    public <R> R withLock(InterProcessLock lock, Duration timeout, Supplier<R> supplier) {
+        var nanos = timeout.toNanos();
+        return withLock(lock, nanos, TimeUnit.NANOSECONDS, supplier);
+    }
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, calls the {@code supplier} and returns the result of the its computation,
+     * then releases the lock.
+     * <p>
+     * If the supplier throws an exception, the lock is released, and the supplier's exception
+     * is propagated to the caller.
+     * <p>
+     * If Curator throws any exception, or if the timeout expires, the appropriate exception is thrown.
+     *
+     * @param <R>      the type of the result produced by the supplier
+     * @param lock     the distributed lock to acquire
      * @param time     the timeout quantity
      * @param unit     the timeout unit
      * @param supplier The supplier providing the computation to be executed while holding the lock
@@ -210,6 +288,31 @@ public class CuratorLockHelper {
         } finally {
             releaseQuietly(lock);
         }
+    }
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, calls the {@code supplier} and returns the result of the its computation,
+     * then releases the lock.
+     * <p>
+     * If the lock cannot be obtained for any reason, or the action throws an exception, the lock is released, and
+     * the {@code errorHandler} is called. The {@link ErrorType} can be used to determine the cause, to permit different
+     * handling for lock acquisition failures and action execution failures. Note that because this method
+     * requires a return value, the error handler must provide one, though it could be null.
+     *
+     * @param <R>          the type of the result produced by the supplier
+     * @param lock         the distributed lock to acquire
+     * @param timeout      the timeout duration
+     * @param supplier     the supplier providing the computation to be executed while holding the lock
+     * @param errorHandler the action to take if the lock cannot be obtained, or if the supplier throws any exception
+     * @return The result of the computation provided by the supplier
+     */
+    public <R> R withLock(InterProcessLock lock,
+                          Duration timeout,
+                          Supplier<R> supplier,
+                          BiFunction<ErrorType, RuntimeException, R> errorHandler) {
+        var nanos = timeout.toNanos();
+        return withLock(lock, nanos, TimeUnit.NANOSECONDS, supplier, errorHandler);
     }
 
     /**
