@@ -13,6 +13,9 @@ import org.kiwiproject.curator.exception.LockAcquisitionFailureException;
 import org.kiwiproject.curator.exception.LockAcquisitionTimeoutException;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 /**
  * Helper class for creating and managing Curator locks, and converting timeouts and exceptions thrown by Curator
@@ -108,6 +111,135 @@ public class CuratorLockHelper {
             releaseQuietly(lock);
         } else {
             LOG.trace("This process does not own lock [{}]. Nothing to do.", lock);
+        }
+    }
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, executes the specified {@code action}, then releases the lock.
+     * <p>
+     * If the action throws an exception, the lock is released, and the action's exception
+     * is propagated to the caller.
+     * <p>
+     * If Curator throws any exception, or if the timeout expires, the appropriate exception is thrown.
+     *
+     * @param lock   the distributed lock to acquire
+     * @param time   the timeout quantity
+     * @param unit   the timeout unit
+     * @param action the action to execute while holding the lock
+     * @throws LockAcquisitionFailureException if the lock throws any exception during acquisition
+     * @throws LockAcquisitionTimeoutException if the lock acquisition times out
+     */
+    public void useLock(InterProcessLock lock, long time, TimeUnit unit, Runnable action) {
+        try {
+            acquire(lock, time, unit);
+            action.run();
+        } finally {
+            releaseQuietly(lock);
+        }
+    }
+
+    /**
+     * Enumeration representing the type of error related to using a lock or returning a value
+     * while holding a lock.
+     */
+    public enum ErrorType {
+        /**
+         * Represents an error related to lock acquisition.
+         */
+        LOCK_ACQUISITION,
+
+        /**
+         * Represents an error related to a executing function or operation, e.g.
+         * executing a {@link Runnable} or getting a value from a {@link Supplier}.
+         */
+        OPERATION
+    }
+
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, executes the specified {@code action}, then releases the lock.
+     * <p>
+     * If the lock cannot be obtained for any reason, or the action throws an exception, the lock is released, and
+     * the {@code errorHandler} is called. The {@link ErrorType} can be used to determine the cause, to permit different
+     * handling for lock acquisition failures and action execution failures.
+     *
+     * @param lock         the distributed lock to acquire
+     * @param time         the timeout quantity
+     * @param unit         the timeout unit
+     * @param action       the action to execute while holding the lock
+     * @param errorHandler the action to take if the lock cannot be obtained, or if the action throws any exception
+     */
+    public void useLock(InterProcessLock lock,
+                        long time, TimeUnit unit,
+                        Runnable action,
+                        BiConsumer<ErrorType, RuntimeException> errorHandler) {
+        try {
+            useLock(lock, time, unit, action);
+        } catch(LockAcquisitionException e) {
+            errorHandler.accept(ErrorType.LOCK_ACQUISITION, e);
+        } catch (RuntimeException e) {
+            errorHandler.accept(ErrorType.OPERATION, e);
+        }
+    }
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, calls the {@code supplier} and returns the result of the its computation,
+     * then releases the lock.
+     * <p>
+     * If the supplier throws an exception, the lock is released, and the supplier's exception
+     * is propagated to the caller.
+     * <p>
+     * If Curator throws any exception, or if the timeout expires, the appropriate exception is thrown.
+     *
+     * @param <R>      the type of the result produced by the supplier
+     * @param lock     the distributed lock to acquire
+     * @param time     the timeout quantity
+     * @param unit     the timeout unit
+     * @param supplier The supplier providing the computation to be executed while holding the lock
+     * @return The result of the computation provided by the supplier
+     * @throws LockAcquisitionFailureException if the lock throws any exception during acquisition
+     * @throws LockAcquisitionTimeoutException if the lock acquisition times out
+     */
+    public <R> R withLock(InterProcessLock lock, long time, TimeUnit unit, Supplier<R> supplier) {
+        try {
+            acquire(lock, time, unit);
+            return supplier.get();
+        } finally {
+            releaseQuietly(lock);
+        }
+    }
+
+    /**
+     * Tries to acquire the specified {@code lock}, waiting up to the specified timeout period.
+     * Once the lock is acquired, calls the {@code supplier} and returns the result of the its computation,
+     * then releases the lock.
+     * <p>
+     * If the lock cannot be obtained for any reason, or the action throws an exception, the lock is released, and
+     * the {@code errorHandler} is called. The {@link ErrorType} can be used to determine the cause, to permit different
+     * handling for lock acquisition failures and action execution failures. Note that because this method
+     * requires a return value, the error handler must provide one, though it could be null.
+     *
+     * @param <R>          the type of the result produced by the supplier
+     * @param lock         the distributed lock to acquire
+     * @param time         the timeout quantity
+     * @param unit         the timeout unit
+     * @param supplier     the supplier providing the computation to be executed while holding the lock
+     * @param errorHandler the action to take if the lock cannot be obtained, or if the supplier throws any exception
+     * @return The result of the computation provided by the supplier
+     */
+    public <R> R withLock(InterProcessLock lock,
+                          long time, TimeUnit unit,
+                          Supplier<R> supplier,
+                          BiFunction<ErrorType, RuntimeException, R> errorHandler) {
+        try {
+            return withLock(lock, time, unit, supplier) ;
+        } catch(LockAcquisitionException e) {
+            return errorHandler.apply(ErrorType.LOCK_ACQUISITION, e);
+        } catch (RuntimeException e) {
+            return errorHandler.apply(ErrorType.OPERATION, e);
         }
     }
 }
