@@ -48,7 +48,7 @@ class CuratorLockHelperTest {
 
     @Test
     void shouldCreateInterProcessMutex() {
-        var lock = lockHelper.createInterProcessMutex(client, "/lock-path");
+        lock = lockHelper.createInterProcessMutex(client, "/lock-path");
         assertThat(lock).isNotNull();
     }
 
@@ -59,7 +59,7 @@ class CuratorLockHelperTest {
         when(client.newWatcherRemoveCuratorFramework())
                 .thenReturn(mock( WatcherRemoveCuratorFramework.class));
 
-        var lock = lockHelper.createInterProcessSemaphoreMutex(client, "/lock-path");
+        lock = lockHelper.createInterProcessSemaphoreMutex(client, "/lock-path");
         assertThat(lock).isNotNull();
     }
 
