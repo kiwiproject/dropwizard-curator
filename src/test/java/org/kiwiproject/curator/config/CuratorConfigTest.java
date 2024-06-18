@@ -45,7 +45,7 @@ class CuratorConfigTest {
 
     @Test
     void shouldExcludeZkConfigProviderFromToString() {
-        var config = newCuratorConfigForTests();
+        config = newCuratorConfigForTests();
         assertThat(config.toString()).doesNotContain("zkConfigProvider");
     }
 
@@ -167,7 +167,7 @@ class CuratorConfigTest {
 
         @Test
         void shouldThrow_WhenBlankConnectStringArgument() {
-            var config = newCuratorConfigForTests();
+            config = newCuratorConfigForTests();
 
             assertThatThrownBy(() -> CuratorConfig.copyOfWithZkConnectString(config, ""))
                     .isExactlyInstanceOf(IllegalArgumentException.class);
