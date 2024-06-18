@@ -16,6 +16,7 @@ import com.google.common.base.Supplier;
 import lombok.Getter;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.WatcherRemoveCuratorFramework;
+import org.apache.curator.framework.recipes.locks.InterProcessLock;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +38,7 @@ class CuratorLockHelperTest {
 
     private CuratorLockHelper lockHelper;
     private CuratorFramework client;
-    private InterProcessMutex lock;
+    private InterProcessLock lock;
 
     @BeforeEach
     void setUp() {
@@ -48,7 +49,7 @@ class CuratorLockHelperTest {
 
     @Test
     void shouldCreateInterProcessMutex() {
-        var lock = lockHelper.createInterProcessMutex(client, "/lock-path");
+        lock = lockHelper.createInterProcessMutex(client, "/lock-path");
         assertThat(lock).isNotNull();
     }
 
@@ -57,9 +58,9 @@ class CuratorLockHelperTest {
         // this is unfortunately a bit too "clear box" in that it knows about the implementation
         // details of creating InterProcessSemaphoreMutex instances
         when(client.newWatcherRemoveCuratorFramework())
-                .thenReturn(mock( WatcherRemoveCuratorFramework.class));
+                .thenReturn(mock(WatcherRemoveCuratorFramework.class));
 
-        var lock = lockHelper.createInterProcessSemaphoreMutex(client, "/lock-path");
+        lock = lockHelper.createInterProcessSemaphoreMutex(client, "/lock-path");
         assertThat(lock).isNotNull();
     }
 
