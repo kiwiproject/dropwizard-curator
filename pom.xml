@@ -32,7 +32,7 @@
         <dropwizard-config-providers.version>2.3.1</dropwizard-config-providers.version>
         <kiwi.version>4.0.0</kiwi.version>
         <kiwi-bom.version>2.0.13</kiwi-bom.version>
-        <kiwi.metrics-healthchecks-severity.version>2.0.4</kiwi.metrics-healthchecks-severity.version>
+        <kiwi.metrics-healthchecks-severity.version>2.0.5</kiwi.metrics-healthchecks-severity.version>
 
         <!-- Versions for test dependencies -->
         <kiwi-test.version>3.5.0</kiwi-test.version>
