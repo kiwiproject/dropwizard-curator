@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.kiwiproject</groupId>
         <artifactId>kiwi-parent</artifactId>
-        <version>3.0.21</version>
+        <version>3.0.22</version>
     </parent>
 
     <artifactId>dropwizard-curator</artifactId>
@@ -29,10 +29,10 @@
     <properties>
 
         <!-- Versions for required dependencies -->
-        <dropwizard-config-providers.version>2.3.5</dropwizard-config-providers.version>
-        <kiwi.version>4.6.1</kiwi.version>
-        <kiwi-bom.version>2.0.20</kiwi-bom.version>
-        <kiwi.metrics-healthchecks-severity.version>2.0.8</kiwi.metrics-healthchecks-severity.version>
+        <dropwizard-config-providers.version>2.3.6</dropwizard-config-providers.version>
+        <kiwi.version>4.7.0</kiwi.version>
+        <kiwi-bom.version>2.0.21</kiwi-bom.version>
+        <kiwi.metrics-healthchecks-severity.version>2.0.9</kiwi.metrics-healthchecks-severity.version>
 
         <!-- Versions for test dependencies -->
         <kiwi-test.version>3.8.1</kiwi-test.version>
