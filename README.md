@@ -1,6 +1,6 @@
 ### Dropwizard Curator
 
-[![Build](https://github.com/kiwiproject/dropwizard-curator/workflows/build/badge.svg)](https://github.com/kiwiproject/dropwizard-curator/actions?query=workflow%3Abuild)
+[![Build](https://github.com/kiwiproject/dropwizard-curator/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/kiwiproject/dropwizard-curator/actions/workflows/build.yml?query=branch%3Amain)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kiwiproject_dropwizard-curator&metric=alert_status)](https://sonarcloud.io/dashboard?id=kiwiproject_dropwizard-curator)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kiwiproject_dropwizard-curator&metric=coverage)](https://sonarcloud.io/dashboard?id=kiwiproject_dropwizard-curator)
 [![CodeQL](https://github.com/kiwiproject/dropwizard-curator/actions/workflows/codeql.yml/badge.svg)](https://github.com/kiwiproject/dropwizard-curator/actions/workflows/codeql.yml)
